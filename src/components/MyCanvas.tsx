@@ -9,7 +9,7 @@ import { RoundedBox } from "./RoundedBox";
 const MyCanvas = () => {
     const fontSize = 24;
     const font = useFont(require("./Roboto/Roboto-Regular.ttf"), fontSize);
-    console.log(font);
+    // console.log(font);
 
     const clock = useClockValue();
     const previousClock = useValue(0);
@@ -27,9 +27,16 @@ const MyCanvas = () => {
         // TODO : Apply the animation to the rounded box
 
         // https://shopify.github.io/react-native-skia/docs/animations/values
-        // yPosition.current = interpolate(clock.current, [0, 4000], [0, 200]);
-        if (yPosition.current < 500)
-            yPosition.current += 0.5 * deltaTime
+        if (yPosition.current < 500) {
+            // interpolate from range [0, 100] to range [0, 50], or in other words clock.current : interpolatedValue = 100 : 50 = 2 : 1, even if clock.current surpasses 100
+            const interpolatedValue = interpolate(clock.current, [0, 100], [0, 50]);
+            // console.log({ interpolatedValue: interpolatedValue, clock: clock.current });
+
+            yPosition.current = interpolatedValue;
+        }
+
+        // if (yPosition.current < 500)
+        //     yPosition.current += 0.5 * deltaTime
 
         FPS.current = Math.round(1000 / (deltaTime));
         previousClock.current = clock.current;
@@ -57,15 +64,27 @@ const MyCanvas = () => {
 
     return (
         <Canvas style={{ flex: 1, backgroundColor: "#222" }} onLayout={onLayoutEvent}>
-            <Text x={10} y={50} text={FPS_Display} font={font} color={"white"} />
-            <RoundedBox position={{ x: canvasSize.x / 2, y: yPosition }} size={{ x: rectWidth, y: rectHeight }} radius={10} />
-            <Rect
-                x={0}
-                y={yPosition}
-                width={10}
-                height={10}
-                color={"red"}
-            />
+            <RoundedBox centerPosition={{ x: canvasSize.x / 2, y: yPosition }} size={{ x: rectWidth, y: rectHeight }} radius={10} />
+
+            {/* --- Debug Stuff --- */}
+            <Group color={"red"}>
+                <Text x={10} y={50} text={FPS_Display} font={font} />
+                {/* Middle Dot */}
+                <Rect
+                    x={canvasSize.x / 2 - 5}
+                    y={canvasSize.y / 2 - 5}
+                    width={10}
+                    height={10}
+                />
+                {/* Top Dot */}
+                <Rect
+                    x={canvasSize.x / 2 - 5}
+                    y={-5}
+                    width={10}
+                    height={10}
+                />
+            </Group>
+            {/* ------------------ */}
         </Canvas>
     )
 }
