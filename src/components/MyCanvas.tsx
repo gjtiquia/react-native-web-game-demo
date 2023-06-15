@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { LayoutChangeEvent } from "react-native";
-import { Canvas, Circle, Group, Rect, Text, interpolate, mix, useClockValue, useComputedValue, useFont, useSharedValueEffect, useValue, useValueEffect } from "@shopify/react-native-skia";
+import { Canvas, Circle, Group, Rect, Selector, Text, interpolate, mix, point, size, useClockValue, useComputedValue, useFont, useSharedValueEffect, useValue, useValueEffect } from "@shopify/react-native-skia";
 import { Vector2, Vector2Zero } from "src/core";
 import { RoundedBox } from "./RoundedBox";
 
@@ -20,65 +20,40 @@ const MyCanvas = () => {
     useValueEffect(clock, () => {
         const deltaTime = clock.current - previousClock.current;
 
-        // console.log("deltaTime", deltaTime);
-
-        // boxPosition.current = { x: boxPosition.current.x, y: boxPosition.current.y + 10 }
-
-        // TODO : Apply the animation to the rounded box
-
-        // https://shopify.github.io/react-native-skia/docs/animations/values
-        if (yPosition.current < 500) {
-            // interpolate from range [0, 100] to range [0, 50], or in other words clock.current : interpolatedValue = 100 : 50 = 2 : 1, even if clock.current surpasses 100
-            const interpolatedValue = interpolate(clock.current, [0, 100], [0, 50]);
-            // console.log({ interpolatedValue: interpolatedValue, clock: clock.current });
-
-            yPosition.current = interpolatedValue;
-        }
-
-        // if (yPosition.current < 500)
-        //     yPosition.current += 0.5 * deltaTime
+        if (yPosition.current < canvasCenter.current.y)
+            yPosition.current += 0.5 * deltaTime
 
         FPS.current = Math.round(1000 / (deltaTime));
         previousClock.current = clock.current;
     });
 
-
-    // const boxPosition = useValue(Vector2Zero);
     const yPosition = useValue(0);
+    const canvasSize = useValue({ width: 0, height: 0 });
+    const canvasCenter = useComputedValue(() => {
+        return point(canvasSize.current.width / 2, canvasSize.current.height / 2)
+    }, [canvasSize]);
 
-    const [canvasSize, setCanvasSize] = useState<Vector2>(Vector2Zero);
-
-    const rectWidth = 64;
-    const rectHeight = 128;
-
-    function onLayoutEvent(event: LayoutChangeEvent): void {
-        const width = event.nativeEvent.layout.width;
-        const height = event.nativeEvent.layout.height;
-        const size: Vector2 = { x: width, y: height };
-
-        // TODO : use onSize => https://shopify.github.io/react-native-skia/docs/animations/values#canvas-size
-        setCanvasSize(size);
-    }
+    const rectSize = size(64, 128);
 
     if (font == null) return;
 
     return (
-        <Canvas style={{ flex: 1, backgroundColor: "#222" }} onLayout={onLayoutEvent}>
-            <RoundedBox centerPosition={{ x: canvasSize.x / 2, y: yPosition }} size={{ x: rectWidth, y: rectHeight }} radius={10} />
+        <Canvas style={{ flex: 1, backgroundColor: "#222" }} onSize={canvasSize}>
+            <RoundedBox centerPosition={{ x: Selector(canvasCenter, (v) => v.x), y: yPosition }} size={{ x: rectSize.width, y: rectSize.height }} radius={10} />
 
             {/* --- Debug Stuff --- */}
             <Group color={"red"}>
                 <Text x={10} y={50} text={FPS_Display} font={font} />
                 {/* Middle Dot */}
                 <Rect
-                    x={canvasSize.x / 2 - 5}
-                    y={canvasSize.y / 2 - 5}
+                    x={Selector(canvasCenter, (v) => v.x - 5)}
+                    y={Selector(canvasCenter, (v) => v.y - 5)}
                     width={10}
                     height={10}
                 />
                 {/* Top Dot */}
                 <Rect
-                    x={canvasSize.x / 2 - 5}
+                    x={Selector(canvasCenter, (v) => v.x - 5)}
                     y={-5}
                     width={10}
                     height={10}

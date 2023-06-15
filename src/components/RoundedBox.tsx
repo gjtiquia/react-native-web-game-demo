@@ -1,4 +1,4 @@
-import { SkiaProps, RoundedRect, AnimatedProp, AnimatedProps, SkiaValue, useValue, useComputedValue, Group } from "@shopify/react-native-skia";
+import { SkiaProps, RoundedRect, AnimatedProp, AnimatedProps, SkiaValue, useValue, useComputedValue, Group, SkPoint, Selector, center, SkSize } from "@shopify/react-native-skia";
 import { Vector2, Vector2Zero, Vector2One } from "src/core";
 
 interface RoundedBoxProps {
@@ -17,12 +17,12 @@ interface AnimatedVector2 {
     y: AnimatedProp<number>
 }
 
-export const RoundedBox = ({ centerPosition: position, size, radius }: RoundedBoxProps) => {
+export const RoundedBox = ({ centerPosition, size, radius }: RoundedBoxProps) => {
     return (
         <Group transform={[{ translateX: - size.x / 2 }, { translateY: - size.y / 2 }]}>
             <RoundedRect
-                x={position.x}
-                y={position.y}
+                x={centerPosition.x}
+                y={centerPosition.y}
                 width={size.x}
                 height={size.y}
                 r={radius}
