@@ -1,38 +1,53 @@
 export interface GameEngineConfig {
-    fixedUpdateTickRate: number
+    fixedDeltaTime: number,
+    autoInit?: boolean
 }
 
 export class GameEngine {
-    private tick: number = 0;
-    private fixedUpdateInterval: NodeJS.Timer;
+    public get tick() { return this._tick }
+    public get fixedDeltaTime() { return this._config.fixedDeltaTime }
+
+    private _config: GameEngineConfig;
+    private _tick: number = 0;
+    private _clearUpdateInterval?: NodeJS.Timer;
 
     constructor(config: GameEngineConfig) {
+        this._config = config;
+
+        console.log("Game Engine Instantiated");
+        if (config.autoInit === undefined || config.autoInit === true)
+            this.initialize();
+    }
+
+    public initialize() {
         console.log("Initializing Game Engine...");
 
         this.awake();
 
-        console.log("Fixed Update Tick Rate: ", config.fixedUpdateTickRate);
+        console.log("Game Engine Fixed Update Tick Rate: ", this._config.fixedDeltaTime);
+        console.log("Starting Game Engine Fixed Update Loop");
         this.fixedUpdate(); // The first update
-        this.fixedUpdateInterval = setInterval(() => this.fixedUpdate(), config.fixedUpdateTickRate);
+        this._clearUpdateInterval = setInterval(() => this.fixedUpdate(), this._config.fixedDeltaTime);
     }
 
-    public onDestroy() {
+    public deinitialize() {
         console.log("Deinitializing Game Engine...");
 
-        clearInterval(this.fixedUpdateInterval);
+        if (this._clearUpdateInterval)
+            clearInterval(this._clearUpdateInterval);
     }
 
     private awake() {
-        console.log("Awake")
+        console.log("Game Engine Awake")
 
         // TODO : Awake logic
     }
 
     private fixedUpdate() {
-        console.log("Fixed Update Tick:", this.tick);
+        // console.log("Fixed Update Tick:", this._tick);
 
         // TODO : Update logic
 
-        this.tick++;
+        this._tick++;
     }
 }
