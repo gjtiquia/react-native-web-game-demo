@@ -10,5 +10,5 @@ export const useGameEngine = () => {
         throw new Error("Game Engine cannot be null, please add a context provider");
     }
 
-    return gameEngine;
+    return { gameEngine };
 }

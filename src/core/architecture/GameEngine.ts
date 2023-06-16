@@ -7,11 +7,18 @@ export class GameEngine {
     public get tick() { return this._tick }
     public get isInitialized() { return this._isInitialized }
 
-    private _config: GameEngineConfig;
+    // TODO : Refactor later
+    public get test_yPosition() { return this._test_yPosition }
 
+    private get _fixedDeltaTime() { return this._config.fixedDeltaTime }
+
+    private _config: GameEngineConfig;
     private _isInitialized: boolean = false;
     private _tick: number = 0;
     private _fixedUpdateInterval?: NodeJS.Timer;
+
+    // TODO : Refactor later
+    private _test_yPosition: number = 0;
 
     constructor(config: GameEngineConfig) {
         console.log("Game Engine Instantiated");
@@ -43,9 +50,15 @@ export class GameEngine {
     }
 
     private fixedUpdate() {
-        console.log("Fixed Update Tick:", this._tick);
+        // console.log("Fixed Update Tick:", this._tick);
 
         // TODO : Update logic
+
+        // TODO : Just testing, refactor later
+        const speed = 0.1;
+        this._test_yPosition += speed * this._fixedDeltaTime;
+        // console.log(this._test_yPosition);
+
 
         this._tick++;
     }

@@ -9,18 +9,7 @@ import { gameEngineInstance } from "src/config/gameEngineConfig";
 // Note 1: Top Left is (0, 0)
 // Note 2: Using Reanimated 2 due to Expo not supporting Reanimated 3 yet.
 const MyCanvas = () => {
-    const clock = useClockValue();
-    const yPosition = useValue(0);
     const canvasSize = useValue({ width: 0, height: 0 });
-
-    const canvasCenter = useComputedValue(() => {
-        return point(canvasSize.current.width / 2, canvasSize.current.height / 2)
-    }, [canvasSize]);
-
-    useValueEffect(clock, () => {
-        if (yPosition.current < canvasCenter.current.y)
-            yPosition.current = interpolate(clock.current, [0, 10], [0, 5]);
-    });
 
     useEffect(() => {
         console.log("Canvas Mounted");
@@ -32,16 +21,10 @@ const MyCanvas = () => {
         }
     }, [])
 
-    const rectSize = size(64, 128);
-
     return (
         <Canvas style={{ flex: 1, backgroundColor: "#222" }} onSize={canvasSize} mode="continuous">
             <GameEngineProvider value={gameEngineInstance}>
-                <RoundedBox
-                    centerPosition={{ x: Selector(canvasCenter, (v) => v.x), y: yPosition }}
-                    size={{ x: rectSize.width, y: rectSize.height }}
-                    radius={10}
-                />
+                <RoundedBox />
 
                 <DebugGroup canvasSize={canvasSize} />
             </GameEngineProvider>

@@ -1,4 +1,5 @@
-import { SkiaProps, RoundedRect, AnimatedProp, AnimatedProps, SkiaValue, useValue, useComputedValue, Group, SkPoint, Selector, center, SkSize } from "@shopify/react-native-skia";
+import { SkiaProps, RoundedRect, AnimatedProp, AnimatedProps, SkiaValue, useValue, useComputedValue, Group, SkPoint, Selector, center, SkSize, useClockValue, useValueEffect } from "@shopify/react-native-skia";
+import { Vector2, useGameEngine } from "src/core";
 
 interface RoundedBoxProps {
     /** The position of the center of the box. */
@@ -16,14 +17,25 @@ interface AnimatedVector2 {
     y: AnimatedProp<number>
 }
 
-export const RoundedBox = ({ centerPosition, size, radius }: RoundedBoxProps) => {
+export const RoundedBox = () => {
+    const { gameEngine } = useGameEngine();
+    const clock = useClockValue();
+
+    const size = useValue<Vector2>({ x: 64, y: 128 })
+    const centerPosition = useValue<Vector2>({ x: 100, y: 0 })
+    const radius = useValue(10);
+
+    useValueEffect(clock, () => {
+        centerPosition.current = { ...centerPosition.current, y: gameEngine.test_yPosition };
+    });
+
     return (
-        <Group transform={[{ translateX: - size.x / 2 }, { translateY: - size.y / 2 }]}>
+        <Group transform={[{ translateX: - size.current.x / 2 }, { translateY: - size.current.y / 2 }]}>
             <RoundedRect
-                x={centerPosition.x}
-                y={centerPosition.y}
-                width={size.x}
-                height={size.y}
+                x={Selector(centerPosition, v => v.x)}
+                y={Selector(centerPosition, v => v.y)}
+                width={Selector(size, v => v.x)}
+                height={Selector(size, v => v.y)}
                 r={radius}
                 color="lightblue"
             />

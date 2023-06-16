@@ -9,7 +9,7 @@ interface DebugGroupProps {
 }
 
 export const DebugGroup = ({ canvasSize }: DebugGroupProps) => {
-    const gameEngine = useGameEngine();
+    const { gameEngine } = useGameEngine();
 
     const fontSize = 24;
     const font = useFont(require("assets/fonts/Roboto/Roboto-Regular.ttf"), fontSize);
