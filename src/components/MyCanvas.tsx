@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { LayoutChangeEvent } from "react-native";
 import { Canvas, Circle, Group, Rect, Selector, Text, interpolate, mix, point, size, useClockValue, useComputedValue, useFont, useSharedValueEffect, useValue, useValueEffect } from "@shopify/react-native-skia";
-import { Vector2, Vector2Zero } from "src/core";
 import { RoundedBox } from "./RoundedBox";
 import { DebugGroup } from "./DebugGroup";
 

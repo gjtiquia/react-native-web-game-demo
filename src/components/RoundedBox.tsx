@@ -1,5 +1,4 @@
 import { SkiaProps, RoundedRect, AnimatedProp, AnimatedProps, SkiaValue, useValue, useComputedValue, Group, SkPoint, Selector, center, SkSize } from "@shopify/react-native-skia";
-import { Vector2, Vector2Zero, Vector2One } from "src/core";
 
 interface RoundedBoxProps {
     /** The position of the center of the box. */

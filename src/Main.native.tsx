@@ -1,18 +1,11 @@
-import { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
 import { MySkiaComponent } from "src/components";
-import { UIOverlay } from "./UIOverlay";
-import { GameEngine } from "./core";
+import { UIOverlay } from "src/UIOverlay";
+import { useGameEngine } from "src/core";
 
 const Main = () => {
-    useEffect(() => {
-        const gameEngine = new GameEngine();
-
-        return () => {
-            gameEngine.onDestroy();
-        }
-    }, [])
+    useGameEngine();
 
     return (
         <SafeAreaProvider>
