@@ -1,10 +1,6 @@
-# React Native Web + React Native Skia Demo
+# React Native Web Game Demo
 
-A demo project to test the compatibility between React Native Web and React Native Skia using an Expo managed workflow.
-
-The demo is hosted here: [react-native-web-skia-demo.netlify.app](https://react-native-web-skia-demo.netlify.app/)
-
-An Android APK build is available for download here: [EAS Build - Android internal distribution build](https://expo.dev/accounts/gjtiquia/projects/react-native-web-skia-demo/builds/4f5dfac6-b47d-4ce5-848a-fb747cd1b98c)
+A demo project to test the a game engine capable of running in both mobile and web using an Expo managed workflow while using React Native Skia as the graphics library.
 
 ## Instructions
 
