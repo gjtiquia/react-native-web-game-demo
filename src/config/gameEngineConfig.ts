@@ -1,5 +1,7 @@
-import { GameEngineConfig } from "src/core";
+import { GameEngine, GameEngineConfig } from "src/core";
 
 export const gameEngineConfig: GameEngineConfig = {
-    fixedUpdateTickRate: 1000
+    fixedDeltaTime: 1000
 }
+
+export const gameEngineInstance = new GameEngine(gameEngineConfig);

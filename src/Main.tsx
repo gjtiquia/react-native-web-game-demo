@@ -5,12 +5,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 // This is important only to pull the code responsible for loading Skia.
 import { WithSkiaWeb } from "@shopify/react-native-skia/lib/module/web";
 import { UIOverlay } from "src/UIOverlay";
-import { useGameEngine } from "src/core";
-import { gameEngineConfig } from "src/config/gameEngineConfig";
 
 const Main = () => {
-    useGameEngine(gameEngineConfig);
-
     return (
         <SafeAreaProvider>
             <WithSkiaWeb
