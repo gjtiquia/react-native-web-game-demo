@@ -1,6 +1,6 @@
 # React Native Web Game Demo
 
-A demo project to test the a game engine capable of running in both mobile and web using an Expo managed workflow while using React Native Skia as the graphics library.
+A demo project to test a game engine capable of running in both mobile and web using an Expo managed workflow while using React Native Skia as the graphics library.
 
 ## Instructions
 
