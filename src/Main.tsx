@@ -6,9 +6,10 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 import { WithSkiaWeb } from "@shopify/react-native-skia/lib/module/web";
 import { UIOverlay } from "src/UIOverlay";
 import { useGameEngine } from "src/core";
+import { gameEngineConfig } from "src/config/gameEngineConfig";
 
 const Main = () => {
-    useGameEngine();
+    useGameEngine(gameEngineConfig);
 
     return (
         <SafeAreaProvider>

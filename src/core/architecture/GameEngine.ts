@@ -1,17 +1,19 @@
-const FIXED_UPDATE_TICK_RATE = 1000;
+export interface GameEngineConfig {
+    fixedUpdateTickRate: number
+}
 
 export class GameEngine {
     private tick: number = 0;
     private fixedUpdateInterval: NodeJS.Timer;
 
-    constructor() {
+    constructor(config: GameEngineConfig) {
         console.log("Initializing Game Engine...");
 
         this.awake();
 
-        console.log("Fixed Update Tick Rate: ", FIXED_UPDATE_TICK_RATE);
+        console.log("Fixed Update Tick Rate: ", config.fixedUpdateTickRate);
         this.fixedUpdate(); // The first update
-        this.fixedUpdateInterval = setInterval(() => this.fixedUpdate(), FIXED_UPDATE_TICK_RATE);
+        this.fixedUpdateInterval = setInterval(() => this.fixedUpdate(), config.fixedUpdateTickRate);
     }
 
     public onDestroy() {

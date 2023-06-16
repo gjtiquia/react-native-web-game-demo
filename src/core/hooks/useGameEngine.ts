@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { GameEngine } from "src/core/architecture";
+import { GameEngine, GameEngineConfig } from "src/core/architecture";
 
-export const useGameEngine = () => {
+export const useGameEngine = (config: GameEngineConfig) => {
     useEffect(() => {
-        const gameEngine = new GameEngine();
+        const gameEngine = new GameEngine(config);
 
         return () => {
             gameEngine.onDestroy();
