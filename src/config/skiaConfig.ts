@@ -9,7 +9,7 @@ interface SkiaConfig {
 }
 
 export const skiaConfig: SkiaConfig = {
-    debugMode: false,
+    debugMode: true,
 
     interpolationStrength: 0.35,
     interpolationThreshold: 300

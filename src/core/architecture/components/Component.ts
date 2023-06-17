@@ -14,4 +14,6 @@ export abstract class Component {
 
     public awake(): void { }
     public fixedUpdate(): void { }
+    public earlyUpdate(): void { }
+    public lateUpdate(): void { }
 }

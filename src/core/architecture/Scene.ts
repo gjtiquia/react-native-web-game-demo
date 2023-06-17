@@ -24,14 +24,19 @@ export class Scene {
     }
 
     public onAwake(): void {
-        this._gameObjects.forEach(gameObject => gameObject.onAwake())
+        this._gameObjects.forEach(gameObject => gameObject.onAwake());
     }
 
     public onFixedUpdate(): void {
-        this._gameObjects.forEach(gameObject => gameObject.onFixedUpdate())
+        this._gameObjects.forEach(gameObject => gameObject.onEarlyUpdate());
+
+        this._gameObjects.forEach(gameObject => gameObject.onFixedUpdate());
 
         // TODO : Physics Update (update Rigidbody position according to velocity/acceleration)
         // TODO : Collision Detection
         // TODO : Collision Resolution (resolve Rigidbody position and set the transform position)
+
+        // TODO : LateUpdate
+        this._gameObjects.forEach(gameObject => gameObject.onLateUpdate());
     }
 }

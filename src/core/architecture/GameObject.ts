@@ -44,4 +44,12 @@ export class GameObject {
     public onFixedUpdate(): void {
         this._components.forEach(component => component.fixedUpdate());
     }
+
+    public onEarlyUpdate(): void {
+        this._components.forEach(component => component.earlyUpdate());
+    }
+
+    public onLateUpdate(): void {
+        this._components.forEach(component => component.lateUpdate());
+    }
 }
