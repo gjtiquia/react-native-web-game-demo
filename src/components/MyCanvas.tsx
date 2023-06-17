@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { LayoutChangeEvent } from "react-native";
-import { Canvas, Circle, Group, Rect, Selector, Text, interpolate, mix, point, size, useClockValue, useComputedValue, useFont, useSharedValueEffect, useValue, useValueEffect } from "@shopify/react-native-skia";
+import { useEffect } from "react";
+import { Canvas, useValue, } from "@shopify/react-native-skia";
 import { RoundedBox } from "./RoundedBox";
 import { DebugGroup } from "./DebugGroup";
 import { GameEngineProvider } from "src/core";
@@ -24,8 +23,8 @@ const MyCanvas = () => {
     return (
         <Canvas style={{ flex: 1, backgroundColor: "#222" }} onSize={canvasSize} mode="continuous">
             <GameEngineProvider value={gameEngineInstance}>
-                <RoundedBox interpolate={false} />
-                <RoundedBox interpolate={true} />
+                {/* TODO: Dynamically create based on scene game objects */}
+                <RoundedBox />
 
                 <DebugGroup canvasSize={canvasSize} />
             </GameEngineProvider>
