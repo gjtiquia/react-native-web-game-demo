@@ -24,7 +24,7 @@ const MyCanvas = () => {
         <Canvas style={{ flex: 1, backgroundColor: "#222" }} onSize={canvasSize} mode="continuous">
             <GameEngineProvider value={gameEngineInstance}>
                 {/* TODO: Dynamically create based on scene game objects */}
-                <RoundedBox />
+                <RoundedBox canvasSize={canvasSize} />
 
                 <DebugGroup canvasSize={canvasSize} />
             </GameEngineProvider>

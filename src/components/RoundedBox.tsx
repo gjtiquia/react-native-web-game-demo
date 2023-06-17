@@ -1,8 +1,8 @@
-import { RoundedRect, useValue, Group, useClockValue, useValueEffect } from "@shopify/react-native-skia";
+import { RoundedRect, useValue, Group, useClockValue, useValueEffect, SkiaValue, SkSize, Selector } from "@shopify/react-native-skia";
 import { useGameEngine } from "src/core";
 
-export const RoundedBox = () => {
-    const DEBUG_MODE = true;
+export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
+    const DEBUG_MODE = false;
     const INTERPOLATION_STRENGTH = 0.35; // Closer to 1 = Follow closer, Closer to 0 = Smoother but follow slower
 
     const { gameEngine } = useGameEngine();
@@ -12,10 +12,8 @@ export const RoundedBox = () => {
     const height = useValue(128);
     const radius = useValue(10);
 
-    const centerX = useValue(100);
     const centerY = useValue(0);
 
-    const DEBUG_centerX = useValue(0);
     const DEBUG_centerY = useValue(0);
 
     useValueEffect(clock, () => {
@@ -25,7 +23,6 @@ export const RoundedBox = () => {
         centerY.current += distance * INTERPOLATION_STRENGTH;
 
         if (DEBUG_MODE) {
-            DEBUG_centerX.current = centerX.current;
             DEBUG_centerY.current = gameEngine.test_yPosition;
         }
     });
@@ -34,7 +31,7 @@ export const RoundedBox = () => {
     return (
         <Group transform={[{ translateX: - width.current / 2 }, { translateY: - height.current / 2 }]}>
             <RoundedRect
-                x={centerX}
+                x={Selector(canvasSize, v => v.width / 2)}
                 y={centerY}
                 width={width}
                 height={height}
@@ -44,7 +41,7 @@ export const RoundedBox = () => {
 
             {DEBUG_MODE ?
                 <RoundedRect
-                    x={DEBUG_centerX}
+                    x={Selector(canvasSize, v => v.width / 2)}
                     y={DEBUG_centerY}
                     width={width}
                     height={height}
