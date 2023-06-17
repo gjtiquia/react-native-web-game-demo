@@ -1,10 +1,8 @@
 import { RoundedRect, useValue, Group, SkiaValue, SkSize, Selector } from "@shopify/react-native-skia";
-import { GameObject, WorldToCanvas, useRender } from "src/core";
+import { skiaConfig } from "src/config/skiaConfig";
+import { WorldToCanvas, useRender } from "src/core";
 
 export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
-    const DEBUG_MODE = false;
-    const INTERPOLATION_STRENGTH = 0.35; // Closer to 1 = Follow closer, Closer to 0 = Smoother but follow slower
-
     const width = 64; // Hardcode
     const height = 128; // Hardcode
     const radius = 10; // Hardcode
@@ -35,10 +33,14 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
         else {
             // TODO : Snap when in a short distance
             const distance = targetCanvasY - centerY.current;
-            centerY.current += distance * INTERPOLATION_STRENGTH;
+
+            if (Math.abs(distance) > skiaConfig.interpolationThreshold)
+                centerY.current = targetCanvasY;
+            else
+                centerY.current += distance * skiaConfig.interpolationStrength;
         }
 
-        if (DEBUG_MODE) DEBUG_centerY.current = targetCanvasY;
+        if (skiaConfig.debugMode) DEBUG_centerY.current = targetCanvasY;
     })
 
     return (
@@ -57,7 +59,7 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
                 color={"lightblue"}
             />
 
-            {DEBUG_MODE ?
+            {skiaConfig.debugMode ?
                 <RoundedRect
                     x={Selector(canvasSize, v => v.width / 2)}
                     y={DEBUG_centerY}
