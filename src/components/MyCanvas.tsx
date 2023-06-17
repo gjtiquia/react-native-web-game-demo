@@ -13,11 +13,13 @@ const MyCanvas = () => {
 
     useEffect(() => {
         console.log("Canvas Mounted");
-        gameEngineInstance.initialize();
+        if (gameEngineInstance)
+            gameEngineInstance.initialize();
 
         return () => {
             console.log("Canvas Unmounted");
-            gameEngineInstance.deinitialize();
+            if (gameEngineInstance)
+                gameEngineInstance.deinitialize();
         }
     }, [])
 

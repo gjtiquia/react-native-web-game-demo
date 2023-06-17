@@ -1,5 +1,7 @@
 import { useClockValue, useValue, useValueEffect } from "@shopify/react-native-skia";
-import { GameEngine, useGameEngine } from "src/core";
+
+import { GameEngine } from "../architecture";
+import { useGameEngine } from "./useGameEngine";
 
 /**
  * Called every render frame.
@@ -16,7 +18,7 @@ export const useRender = (onGameEngineRender: (gameEngine: GameEngine, deltaTime
         const deltaTime = clock.current - previousClock.current;
         previousClock.current = clock.current;
 
-        if (gameEngine.isAwake) {
+        if (gameEngine && gameEngine.isInitialized && gameEngine.isAwake) {
             onGameEngineRender(gameEngine, deltaTime);
         }
 

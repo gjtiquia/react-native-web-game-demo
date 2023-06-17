@@ -1,5 +1,5 @@
 import { RoundedRect, useValue, Group, SkiaValue, SkSize, Selector } from "@shopify/react-native-skia";
-import { WorldToCanvas, useRender } from "src/core";
+import { GameObject, WorldToCanvas, useRender } from "src/core";
 
 export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
     const DEBUG_MODE = false;
@@ -15,9 +15,12 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
     const DEBUG_centerY = useValue(0);
 
     useRender((gameEngine) => {
+        const box = gameEngine.scene.getGameObject("box");
+        if (!box) return;
+
         // Dynamically get y from game engine
         const { y: targetCanvasY } = WorldToCanvas(
-            { x: 0, y: gameEngine.test_box_y },
+            box.transform.position,
             { x: canvasSize.current.width, y: canvasSize.current.height }
         );
 

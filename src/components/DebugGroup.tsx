@@ -20,7 +20,7 @@ export const DebugGroup = ({ canvasSize }: DebugGroupProps) => {
     const dotSize = size(10, 10);
 
     const onGameEngineRender = (gameEngine: GameEngine) => {
-        tickRateDisplay.current = `Tick Rate: ${gameEngine.tickRate}TPS`;
+        tickRateDisplay.current = `Tick Rate: ${GameEngine.TICK_RATE}TPS`;
         tickDisplay.current = `Tick: ${gameEngine.tick}`;
     }
 

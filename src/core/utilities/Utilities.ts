@@ -1,12 +1,12 @@
 import { GameEngine } from "../architecture";
-import { Vector2 } from "./Vector2";
+import { Vector2 } from "../utilities";
 
 export function WorldToCanvas(worldPosition: Vector2, canvasSize: Vector2): Vector2 {
     // currently only transforms y position
     // TODO : transform x position
 
     const gameY = worldPosition.y;
-    const refY = GameEngine.ReferenceResolution.y;
+    const refY = GameEngine.REFERENCE_RESOLUTION.y;
     const normalizedY = gameY / refY;
 
     // Assuming canvas y-axis is downwards

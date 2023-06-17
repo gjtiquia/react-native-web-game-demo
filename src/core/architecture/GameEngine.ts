@@ -1,46 +1,46 @@
-import { Vector2 } from "src/core"
+import { Scene, SceneConfig } from "../architecture"
+import { Vector2 } from "../utilities";
 
 export interface GameEngineConfig {
     /** One cycle of a game loop is called a tick. Tick rate is the number of ticks per second. */
-    tickRate: number
-
-    referenceResolution: Vector2
+    tickRate: number,
+    referenceResolution: Vector2,
+    sceneConfig: SceneConfig
 }
 
 export class GameEngine {
-    public static ReferenceResolution: Vector2;
+    // STATIC MEMBERS
+    public static REFERENCE_RESOLUTION: Vector2;
+    public static TICK_RATE: number;
 
+    // PUBLIC GETTERS
     public get tick() { return this._tick }
-    public get tickRate() { return this._config.tickRate }
     public get isInitialized() { return this._isInitialized }
     public get isAwake() { return this._isAwake }
+    public get scene() { return this._scene }
 
-    // TODO : Refactor later
-    public get test_box_y() { return this._test_box_y }
-    public get test_platform_y() { return this._test_platform_y }
-    public get test_referenceResolution_y() { return this._config.referenceResolution.y }
-    //
-
+    // PRIVATE GETTERS
     private get _fixedDeltaTime() { return (1000 / this._config.tickRate) }
 
+    // PRIVATE MEMBERS
     private _config: GameEngineConfig;
+    private _scene: Scene;
     private _isInitialized: boolean = false;
     private _isAwake: boolean = false;
     private _tick: number = 0;
     private _fixedUpdateInterval?: NodeJS.Timer;
 
-    // TODO : Refactor later
-    private _test_box_y: number = 0;
-    private _test_platform_y: number = 0;
-    //
-
+    // CONSTRUCTOR
     constructor(config: GameEngineConfig) {
         console.log("Game Engine Instantiated");
         this._config = config;
+        this._scene = new Scene(config.sceneConfig);
 
-        GameEngine.ReferenceResolution = config.referenceResolution;
+        GameEngine.REFERENCE_RESOLUTION = config.referenceResolution;
+        GameEngine.TICK_RATE = config.tickRate;
     }
 
+    // PUBLIC METHODS
     public initialize() {
         console.log("Initializing Game Engine...");
 
@@ -62,31 +62,12 @@ export class GameEngine {
     private awake() {
         console.log("Game Engine Awake")
 
-        // TODO : Awake logic
-
-        // TODO : Refactor later
-        // ReferenceResolution: 100
-        this._test_box_y = 80;
-        this._test_platform_y = 30;
-        //
-
+        this._scene.onAwake();
         this._isAwake = true;
     }
 
     private fixedUpdate() {
-        // console.log("Fixed Update Tick:", this._tick);
-
-        // TODO : Update logic
-
-        // TODO : Just testing, refactor later
-        const speed = 0.05; // Units per delta time (in ms)
-        if (this._test_box_y > this._test_platform_y) {
-            this._test_box_y -= speed * this._fixedDeltaTime;
-        }
-
-        // console.log(this._test_yPosition);
-
-
+        this._scene.onFixedUpdate(this._fixedDeltaTime);
         this._tick++;
     }
 
@@ -107,11 +88,11 @@ export class GameEngine {
     }
 
     private clearFixedUpdateInterval() {
-        if (this._fixedUpdateInterval) {
-            console.log("Clearing fixed update interval")
-            clearInterval(this._fixedUpdateInterval);
+        if (!this._fixedUpdateInterval) return;
 
-            this._fixedUpdateInterval = undefined;
-        }
+        console.log("Clearing fixed update interval")
+        clearInterval(this._fixedUpdateInterval);
+
+        this._fixedUpdateInterval = undefined;
     }
 }

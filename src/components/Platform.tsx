@@ -8,9 +8,13 @@ export const Platform = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
     const yPos = useValue(-height); // Initial y-position is out of canvas, so will not flicker when it snap in place when reading from game engine
 
     useRender((gameEngine) => {
+        // TODO : Optimize, no need to get in every render, useRef?
+        const platform = gameEngine.scene.getGameObject("platform");
+        if (!platform) return;
+
         // Dynamically get y from game engine
         const canvasPos = WorldToCanvas(
-            { x: 0, y: gameEngine.test_platform_y },
+            platform.transform.position,
             { x: canvasSize.current.width, y: canvasSize.current.height }
         );
 
