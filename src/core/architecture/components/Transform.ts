@@ -1,5 +1,5 @@
-import { GameObject } from "../../architecture";
 import { Vector2, Vector2Zero } from "../../utilities";
+import { GameObject } from "../GameObject";
 import { Component } from "./Component";
 
 export class Transform extends Component {

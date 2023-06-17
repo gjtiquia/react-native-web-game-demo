@@ -1,5 +1,6 @@
-import { Scene, SceneConfig } from "./Scene"
 import { Vector2 } from "../utilities";
+import { Scene, SceneConfig } from "./Scene"
+import { Time } from "./Time"
 
 export interface GameEngineConfig {
     /** One cycle of a game loop is called a tick. Tick rate is the number of ticks per second. */
@@ -10,8 +11,7 @@ export interface GameEngineConfig {
 
 export class GameEngine {
     // STATIC MEMBERS
-    public static REFERENCE_RESOLUTION: Vector2;
-    public static TICK_RATE: number;
+    public static referenceResolution: Vector2;
 
     // PUBLIC GETTERS
     public get tick() { return this._tick }
@@ -19,11 +19,7 @@ export class GameEngine {
     public get isAwake() { return this._isAwake }
     public get scene() { return this._scene }
 
-    // PRIVATE GETTERS
-    private get _fixedDeltaTime() { return (1000 / this._config.tickRate) }
-
     // PRIVATE MEMBERS
-    private _config: GameEngineConfig;
     private _scene: Scene;
     private _isInitialized: boolean = false;
     private _isAwake: boolean = false;
@@ -33,11 +29,11 @@ export class GameEngine {
     // CONSTRUCTOR
     constructor(config: GameEngineConfig) {
         console.log("Game Engine Instantiated");
-        this._config = config;
-        this._scene = new Scene(config.sceneConfig);
 
-        GameEngine.REFERENCE_RESOLUTION = config.referenceResolution;
-        GameEngine.TICK_RATE = config.tickRate;
+        GameEngine.referenceResolution = config.referenceResolution;
+        Time.tickRate = config.tickRate;
+
+        this._scene = new Scene(config.sceneConfig);
     }
 
     // PUBLIC METHODS
@@ -67,7 +63,7 @@ export class GameEngine {
     }
 
     private fixedUpdate() {
-        this._scene.onFixedUpdate(this._fixedDeltaTime);
+        this._scene.onFixedUpdate();
         this._tick++;
     }
 
@@ -79,12 +75,12 @@ export class GameEngine {
     }
 
     private startFixedUpdateInterval() {
-        console.log(`Game Engine Tick Rate: ${this._config.tickRate}TPS`);
-        console.log(`Game Engine Fixed Delta Time: ${this._fixedDeltaTime}ms`)
+        console.log(`Game Engine Tick Rate: ${Time.tickRate}TPS`);
+        console.log(`Game Engine Fixed Delta Time: ${Time.fixedDeltaTime}ms`)
         console.log("Starting Game Engine Fixed Update Interval");
 
         this.fixedUpdate(); // The first update
-        this._fixedUpdateInterval = setInterval(() => this.fixedUpdate(), this._fixedDeltaTime);
+        this._fixedUpdateInterval = setInterval(() => this.fixedUpdate(), Time.fixedDeltaTime);
     }
 
     private clearFixedUpdateInterval() {

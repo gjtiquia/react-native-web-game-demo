@@ -9,7 +9,7 @@ export const Platform = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
 
     useRender((gameEngine) => {
         // TODO : Optimize, no need to get in every render, useRef?
-        const platform = gameEngine.scene.getGameObject("platform");
+        const platform = gameEngine.scene.findGameObject("platformInstance");
         if (!platform) return;
 
         // Dynamically get y from game engine

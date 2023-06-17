@@ -1,13 +1,15 @@
 import { GameObject } from "../../architecture";
 
-//! Not sure why defining this in a separate file breaks?
+export interface ComponentConfig {
+    component: new (gameObject: GameObject) => Component
+}
+
 export abstract class Component {
+    protected get _transform() { return this._gameObject.transform }
     protected _gameObject: GameObject;
 
     constructor(gameObject: GameObject) {
         this._gameObject = gameObject;
-
-        console.log("Component: GameObject ID: ", gameObject.id);
     }
 
     public awake(): void { }

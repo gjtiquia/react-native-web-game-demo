@@ -1,6 +1,9 @@
-import { GameObjectConfig } from "src/core";
+import { GameObjectPrefabConfig } from "src/core";
+import { Box } from "../scripts/box";
 
-export const boxPrefab: GameObjectConfig = {
-    id: "box",
-    initialPosition: { x: 0, y: 0 }
+export const boxPrefab: GameObjectPrefabConfig = {
+    prefabID: "boxPrefab",
+    prefabComponents: [
+        { component: Box }
+    ]
 }

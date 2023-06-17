@@ -15,7 +15,7 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
     const DEBUG_centerY = useValue(0);
 
     useRender((gameEngine) => {
-        const box = gameEngine.scene.getGameObject("box");
+        const box = gameEngine.scene.findGameObject("boxInstance");
         if (!box) return;
 
         // Dynamically get y from game engine
