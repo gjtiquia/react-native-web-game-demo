@@ -56,8 +56,8 @@ export class GameEngine {
         // TODO : Update logic
 
         // TODO : Just testing, refactor later
-        const speed = 0.1;
-        if (this._test_yPosition < 600)
+        const speed = 0.5;
+        if (this._test_yPosition < 400)
             this._test_yPosition += speed * this._fixedDeltaTime;
 
         // console.log(this._test_yPosition);

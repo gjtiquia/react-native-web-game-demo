@@ -8,17 +8,17 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
     const { gameEngine } = useGameEngine();
     const clock = useClockValue();
 
-    const width = useValue(64);
-    const height = useValue(128);
-    const radius = useValue(10);
+    const width = 64; // Hardcode
+    const height = 128; // Hardcode
+    const radius = 10; // Hardcode
 
     const centerY = useValue(0);
-
     const DEBUG_centerY = useValue(0);
 
     useValueEffect(clock, () => {
-        // TODO : Dynamically get from game engine
+        // TODO : Dynamically get y from game engine
 
+        // TODO : Snap when in a short distance
         const distance = gameEngine.test_yPosition - centerY.current;
         centerY.current += distance * INTERPOLATION_STRENGTH;
 
@@ -29,7 +29,12 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
 
 
     return (
-        <Group transform={[{ translateX: - width.current / 2 }, { translateY: - height.current / 2 }]}>
+        <Group
+            transform={[
+                { translateX: - width / 2 },
+                { translateY: - height } // For now, y position = bottom of the box, for quick proof-of-concept
+            ]}
+        >
             <RoundedRect
                 x={Selector(canvasSize, v => v.width / 2)}
                 y={centerY}
