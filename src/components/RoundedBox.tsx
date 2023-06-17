@@ -1,43 +1,38 @@
-import { SkiaProps, RoundedRect, AnimatedProp, AnimatedProps, SkiaValue, useValue, useComputedValue, Group, SkPoint, Selector, center, SkSize, useClockValue, useValueEffect } from "@shopify/react-native-skia";
+import { RoundedRect, useValue, Group, Selector, useClockValue, useValueEffect } from "@shopify/react-native-skia";
 import { Vector2, useGameEngine } from "src/core";
 
-interface RoundedBoxProps {
-    /** The position of the center of the box. */
-    centerPosition: AnimatedVector2, // TODO : Try use Vector2 and Selector
-
-    /** The width and height of the rounded box. */
-    size: AnimatedVector2, // TODO : Try use Vector2 and Selector
-
-    /** The radius of the rounded corner of the box. */
-    radius: number
-}
-
-interface AnimatedVector2 {
-    x: AnimatedProp<number>,
-    y: AnimatedProp<number>
-}
-
-export const RoundedBox = () => {
+export const RoundedBox = ({ interpolate }: { interpolate: boolean }) => {
     const { gameEngine } = useGameEngine();
     const clock = useClockValue();
 
     const size = useValue<Vector2>({ x: 64, y: 128 })
-    const centerPosition = useValue<Vector2>({ x: 100, y: 0 })
+
+    const centerX = useValue(interpolate ? 100 : 200);
+    const centerY = useValue(0);
+
     const radius = useValue(10);
 
     useValueEffect(clock, () => {
-        centerPosition.current = { ...centerPosition.current, y: gameEngine.test_yPosition };
+        if (interpolate) {
+            // runTiming(centerY, gameEngine.test_yPosition); // Hard to customize interpolation behaviour
+
+            const distance = gameEngine.test_yPosition - centerY.current;
+            centerY.current += distance * 0.35; // Closer to 1 = Follow closer, Closer to 0 = Smoother but follow slower
+        }
+        else {
+            centerY.current = gameEngine.test_yPosition;
+        }
     });
 
     return (
         <Group transform={[{ translateX: - size.current.x / 2 }, { translateY: - size.current.y / 2 }]}>
             <RoundedRect
-                x={Selector(centerPosition, v => v.x)}
-                y={Selector(centerPosition, v => v.y)}
+                x={centerX}
+                y={centerY}
                 width={Selector(size, v => v.x)}
                 height={Selector(size, v => v.y)}
                 r={radius}
-                color="lightblue"
+                color={interpolate ? "lightblue" : "blue"}
             />
         </Group>
     )

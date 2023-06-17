@@ -11,14 +11,15 @@ interface DebugGroupProps {
 export const DebugGroup = ({ canvasSize }: DebugGroupProps) => {
     const { gameEngine } = useGameEngine();
 
-    const fontSize = 24;
+    const fontSize = 18;
     const font = useFont(require("assets/fonts/Roboto/Roboto-Regular.ttf"), fontSize);
 
     const clock = useClockValue();
     const previousClock = useValue(0);
 
-    const fps = useValue(0);
-    const fpsDisplay = useComputedValue(() => `FPS: ${fps.current}`, [fps])
+    const refreshRate = useValue(0);
+    const refreshRateDisplay = useComputedValue(() => `Refresh Rate: ${refreshRate.current}Hz`, [refreshRate])
+    const tickRateDisplay = useValue("");
 
     const tick = useValue(0);
     const tickDisplay = useComputedValue(() => `Tick: ${tick.current}`, [tick])
@@ -28,9 +29,10 @@ export const DebugGroup = ({ canvasSize }: DebugGroupProps) => {
         const deltaTime = clock.current - previousClock.current;
         const calculatedFPS = Math.round(1000 / (deltaTime));
 
-        fps.current = calculatedFPS;
+        refreshRate.current = calculatedFPS;
         previousClock.current = clock.current;
 
+        tickRateDisplay.current = `Tick Rate: ${gameEngine.tickRate}TPS`;
         tick.current = gameEngine.tick;
     });
 
@@ -43,8 +45,9 @@ export const DebugGroup = ({ canvasSize }: DebugGroupProps) => {
     if (font == null) return null;
     return (
         <Group color={"red"}>
-            <Text x={10} y={30} text={fpsDisplay} font={font} />
-            <Text x={10} y={60} text={tickDisplay} font={font} />
+            <Text x={10} y={30} text={refreshRateDisplay} font={font} />
+            <Text x={10} y={60} text={tickRateDisplay} font={font} />
+            <Text x={10} y={90} text={tickDisplay} font={font} />
             {/* Top Dot */}
             <Rect
                 x={Selector(canvasCenter, v => v.x - dotSize.width / 2)}

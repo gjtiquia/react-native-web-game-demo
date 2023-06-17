@@ -24,7 +24,8 @@ const MyCanvas = () => {
     return (
         <Canvas style={{ flex: 1, backgroundColor: "#222" }} onSize={canvasSize} mode="continuous">
             <GameEngineProvider value={gameEngineInstance}>
-                <RoundedBox />
+                <RoundedBox interpolate={false} />
+                <RoundedBox interpolate={true} />
 
                 <DebugGroup canvasSize={canvasSize} />
             </GameEngineProvider>

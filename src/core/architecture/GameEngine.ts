@@ -1,16 +1,17 @@
 export interface GameEngineConfig {
-    fixedDeltaTime: number,
-    autoInit?: boolean
+    /** One cycle of a game loop is called a tick. Tick rate is the number of ticks per second. */
+    tickRate: number
 }
 
 export class GameEngine {
     public get tick() { return this._tick }
+    public get tickRate() { return this._config.tickRate }
     public get isInitialized() { return this._isInitialized }
 
     // TODO : Refactor later
     public get test_yPosition() { return this._test_yPosition }
 
-    private get _fixedDeltaTime() { return this._config.fixedDeltaTime }
+    private get _fixedDeltaTime() { return (1000 / this._config.tickRate) }
 
     private _config: GameEngineConfig;
     private _isInitialized: boolean = false;
@@ -56,7 +57,9 @@ export class GameEngine {
 
         // TODO : Just testing, refactor later
         const speed = 0.1;
-        this._test_yPosition += speed * this._fixedDeltaTime;
+        if (this._test_yPosition < 600)
+            this._test_yPosition += speed * this._fixedDeltaTime;
+
         // console.log(this._test_yPosition);
 
 
@@ -70,11 +73,12 @@ export class GameEngine {
     }
 
     private startFixedUpdateInterval() {
-        console.log("Game Engine Fixed Update Tick Rate: ", this._config.fixedDeltaTime);
+        console.log("Game Engine Tick Rate: ", this._config.tickRate);
+        console.log("Game Engine Fixed Delta Time: ", this._fixedDeltaTime)
         console.log("Starting Game Engine Fixed Update Interval");
 
         this.fixedUpdate(); // The first update
-        this._fixedUpdateInterval = setInterval(() => this.fixedUpdate(), this._config.fixedDeltaTime);
+        this._fixedUpdateInterval = setInterval(() => this.fixedUpdate(), this._fixedDeltaTime);
     }
 
     private clearFixedUpdateInterval() {
