@@ -5,6 +5,7 @@ import { gameEngineInstance } from "src/config/gameEngineConfig";
 import { RoundedBox } from "./RoundedBox";
 import { DebugGroup } from "./DebugGroup";
 import { Platform } from "./Platform";
+import { skiaConfig } from "src/config/skiaConfig";
 
 // Note 1: Top Left is (0, 0)
 // Note 2: Using Reanimated 2 due to Expo not supporting Reanimated 3 yet.
@@ -13,11 +14,13 @@ const MyCanvas = () => {
 
     useEffect(() => {
         console.log("Canvas Mounted");
-        gameEngineInstance.initialize();
+        if (gameEngineInstance)
+            gameEngineInstance.initialize();
 
         return () => {
             console.log("Canvas Unmounted");
-            gameEngineInstance.deinitialize();
+            if (gameEngineInstance)
+                gameEngineInstance.deinitialize();
         }
     }, [])
 
@@ -28,7 +31,7 @@ const MyCanvas = () => {
                 <RoundedBox canvasSize={canvasSize} />
                 <Platform canvasSize={canvasSize} />
 
-                {/* <DebugGroup canvasSize={canvasSize} /> */}
+                {skiaConfig.debugMode ? <DebugGroup canvasSize={canvasSize} /> : null}
             </GameEngineProvider>
         </Canvas>
     )

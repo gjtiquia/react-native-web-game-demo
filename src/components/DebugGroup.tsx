@@ -1,5 +1,5 @@
 import { Group, Rect, Selector, SkSize, SkiaValue, Text, point, size, useComputedValue, useFont, useValue, } from "@shopify/react-native-skia";
-import { GameEngine, useRender } from "src/core";
+import { GameEngine, Time, useRender } from "src/core";
 
 interface DebugGroupProps {
     canvasSize: SkiaValue<SkSize>
@@ -12,6 +12,7 @@ export const DebugGroup = ({ canvasSize }: DebugGroupProps) => {
     const refreshRateDisplay = useValue("");
     const tickRateDisplay = useValue("");
     const tickDisplay = useValue("");
+    const elapsedTimeDisplay = useValue("");
 
     const canvasCenter = useComputedValue(() => {
         return point(canvasSize.current.width / 2, canvasSize.current.height / 2)
@@ -19,9 +20,10 @@ export const DebugGroup = ({ canvasSize }: DebugGroupProps) => {
 
     const dotSize = size(10, 10);
 
-    const onGameEngineRender = (gameEngine: GameEngine) => {
-        tickRateDisplay.current = `Tick Rate: ${gameEngine.tickRate}TPS`;
+    const onGameEngineRender = (gameEngine: GameEngine, deltaTime: number, elapsedTime: number) => {
+        tickRateDisplay.current = `Tick Rate: ${Time.tickRate}TPS`;
         tickDisplay.current = `Tick: ${gameEngine.tick}`;
+        elapsedTimeDisplay.current = `Elapsed Time Since Last Tick: ${elapsedTime}`;
     }
 
     const onSkiaRender = (deltaTime: number) => {
@@ -37,6 +39,7 @@ export const DebugGroup = ({ canvasSize }: DebugGroupProps) => {
             <Text x={10} y={30} text={refreshRateDisplay} font={font} />
             <Text x={10} y={60} text={tickRateDisplay} font={font} />
             <Text x={10} y={90} text={tickDisplay} font={font} />
+            <Text x={10} y={120} text={elapsedTimeDisplay} font={font} />
             {/* Top Dot */}
             <Rect
                 x={Selector(canvasCenter, v => v.x - dotSize.width / 2)}

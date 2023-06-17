@@ -6,7 +6,7 @@ export function WorldToCanvas(worldPosition: Vector2, canvasSize: Vector2): Vect
     // TODO : transform x position
 
     const gameY = worldPosition.y;
-    const refY = GameEngine.ReferenceResolution.y;
+    const refY = GameEngine.referenceResolution.y;
     const normalizedY = gameY / refY;
 
     // Assuming canvas y-axis is downwards

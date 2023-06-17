@@ -1,10 +1,9 @@
 import { RoundedRect, useValue, Group, SkiaValue, SkSize, Selector } from "@shopify/react-native-skia";
-import { WorldToCanvas, useRender } from "src/core";
+import { skiaConfig } from "src/config/skiaConfig";
+import { Time, WorldToCanvas, useRender } from "src/core";
+import { lerp } from "src/utils";
 
 export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
-    const DEBUG_MODE = false;
-    const INTERPOLATION_STRENGTH = 0.35; // Closer to 1 = Follow closer, Closer to 0 = Smoother but follow slower
-
     const width = 64; // Hardcode
     const height = 128; // Hardcode
     const radius = 10; // Hardcode
@@ -12,12 +11,20 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
     const isInitialized = useValue(false);
 
     const centerY = useValue(0); // initial y is out of canvas, so will not flicker when snapping in place
-    const DEBUG_centerY = useValue(0);
+    const DEBUG_CURRENT_centerY = useValue(0);
+    const DEBUG_PREVIOUS_centerY = useValue(0);
 
-    useRender((gameEngine) => {
-        // Dynamically get y from game engine
+    useRender((gameEngine, deltaTime, elapsedTime) => {
+        const box = gameEngine.scene.findGameObject("boxInstance");
+        if (!box) return;
+
         const { y: targetCanvasY } = WorldToCanvas(
-            { x: 0, y: gameEngine.test_box_y },
+            box.transform.position,
+            { x: canvasSize.current.width, y: canvasSize.current.height }
+        );
+
+        const { y: previousCanvasY } = WorldToCanvas(
+            box.transform.previousPosition,
             { x: canvasSize.current.width, y: canvasSize.current.height }
         );
 
@@ -30,12 +37,19 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
 
         // Interpolate
         else {
-            // TODO : Snap when in a short distance
-            const distance = targetCanvasY - centerY.current;
-            centerY.current += distance * INTERPOLATION_STRENGTH;
+            const distance = targetCanvasY - previousCanvasY;
+
+            if (Math.abs(distance) > skiaConfig.interpolationThreshold)
+                centerY.current = targetCanvasY;
+            else {
+                centerY.current = lerp(previousCanvasY, targetCanvasY, elapsedTime / Time.fixedDeltaTime);
+            }
         }
 
-        if (DEBUG_MODE) DEBUG_centerY.current = targetCanvasY;
+        if (skiaConfig.debugMode) {
+            DEBUG_CURRENT_centerY.current = targetCanvasY;
+            DEBUG_PREVIOUS_centerY.current = previousCanvasY;
+        }
     })
 
     return (
@@ -54,16 +68,27 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
                 color={"lightblue"}
             />
 
-            {DEBUG_MODE ?
-                <RoundedRect
-                    x={Selector(canvasSize, v => v.width / 2)}
-                    y={DEBUG_centerY}
-                    width={width}
-                    height={height}
-                    r={radius}
-                    color={"red"}
-                    opacity={0.5}
-                /> : null
+            {skiaConfig.debugMode ?
+                <>
+                    <RoundedRect
+                        x={Selector(canvasSize, v => v.width / 2)}
+                        y={DEBUG_CURRENT_centerY}
+                        width={width}
+                        height={height}
+                        r={radius}
+                        color={"red"}
+                        opacity={0.5}
+                    />
+                    <RoundedRect
+                        x={Selector(canvasSize, v => v.width / 2)}
+                        y={DEBUG_PREVIOUS_centerY}
+                        width={width}
+                        height={height}
+                        r={radius}
+                        color={"green"}
+                        opacity={0.5}
+                    />
+                </> : null
             }
         </Group>
     )
