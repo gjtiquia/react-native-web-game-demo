@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { LayoutChangeEvent } from "react-native";
-import { Canvas, Circle, Group, Rect, Selector, Text, interpolate, mix, point, size, useClockValue, useComputedValue, useFont, useSharedValueEffect, useValue, useValueEffect } from "@shopify/react-native-skia";
-import { RoundedBox } from "./RoundedBox";
-import { DebugGroup } from "./DebugGroup";
+import { useEffect } from "react";
+import { Canvas, useValue, } from "@shopify/react-native-skia";
 import { GameEngineProvider } from "src/core";
 import { gameEngineInstance } from "src/config/gameEngineConfig";
+import { RoundedBox } from "./RoundedBox";
+import { DebugGroup } from "./DebugGroup";
+import { Platform } from "./Platform";
 
 // Note 1: Top Left is (0, 0)
 // Note 2: Using Reanimated 2 due to Expo not supporting Reanimated 3 yet.
@@ -21,12 +21,14 @@ const MyCanvas = () => {
         }
     }, [])
 
+    // TODO : Dynamically create UI objects from game objects in game engine
     return (
         <Canvas style={{ flex: 1, backgroundColor: "#222" }} onSize={canvasSize} mode="continuous">
             <GameEngineProvider value={gameEngineInstance}>
-                <RoundedBox />
+                <RoundedBox canvasSize={canvasSize} />
+                <Platform canvasSize={canvasSize} />
 
-                <DebugGroup canvasSize={canvasSize} />
+                {/* <DebugGroup canvasSize={canvasSize} /> */}
             </GameEngineProvider>
         </Canvas>
     )

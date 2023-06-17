@@ -1,44 +1,70 @@
-import { SkiaProps, RoundedRect, AnimatedProp, AnimatedProps, SkiaValue, useValue, useComputedValue, Group, SkPoint, Selector, center, SkSize, useClockValue, useValueEffect } from "@shopify/react-native-skia";
-import { Vector2, useGameEngine } from "src/core";
+import { RoundedRect, useValue, Group, SkiaValue, SkSize, Selector } from "@shopify/react-native-skia";
+import { WorldToCanvas, useRender } from "src/core";
 
-interface RoundedBoxProps {
-    /** The position of the center of the box. */
-    centerPosition: AnimatedVector2, // TODO : Try use Vector2 and Selector
+export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
+    const DEBUG_MODE = false;
+    const INTERPOLATION_STRENGTH = 0.35; // Closer to 1 = Follow closer, Closer to 0 = Smoother but follow slower
 
-    /** The width and height of the rounded box. */
-    size: AnimatedVector2, // TODO : Try use Vector2 and Selector
+    const width = 64; // Hardcode
+    const height = 128; // Hardcode
+    const radius = 10; // Hardcode
 
-    /** The radius of the rounded corner of the box. */
-    radius: number
-}
+    const isInitialized = useValue(false);
 
-interface AnimatedVector2 {
-    x: AnimatedProp<number>,
-    y: AnimatedProp<number>
-}
+    const centerY = useValue(0); // initial y is out of canvas, so will not flicker when snapping in place
+    const DEBUG_centerY = useValue(0);
 
-export const RoundedBox = () => {
-    const { gameEngine } = useGameEngine();
-    const clock = useClockValue();
+    useRender((gameEngine) => {
+        // Dynamically get y from game engine
+        const { y: targetCanvasY } = WorldToCanvas(
+            { x: 0, y: gameEngine.test_box_y },
+            { x: canvasSize.current.width, y: canvasSize.current.height }
+        );
 
-    const size = useValue<Vector2>({ x: 64, y: 128 })
-    const centerPosition = useValue<Vector2>({ x: 100, y: 0 })
-    const radius = useValue(10);
+        // Snap when not yet initialized
+        if (!isInitialized.current) {
+            centerY.current = targetCanvasY;
+            isInitialized.current = true;
+            return;
+        }
 
-    useValueEffect(clock, () => {
-        centerPosition.current = { ...centerPosition.current, y: gameEngine.test_yPosition };
-    });
+        // Interpolate
+        else {
+            // TODO : Snap when in a short distance
+            const distance = targetCanvasY - centerY.current;
+            centerY.current += distance * INTERPOLATION_STRENGTH;
+        }
+
+        if (DEBUG_MODE) DEBUG_centerY.current = targetCanvasY;
+    })
 
     return (
-        <Group transform={[{ translateX: - size.current.x / 2 }, { translateY: - size.current.y / 2 }]}>
+        <Group
+            transform={[
+                { translateX: - width / 2 },
+                { translateY: - height } // For now, y position = bottom of the box, for quick proof-of-concept
+            ]}
+        >
             <RoundedRect
-                x={Selector(centerPosition, v => v.x)}
-                y={Selector(centerPosition, v => v.y)}
-                width={Selector(size, v => v.x)}
-                height={Selector(size, v => v.y)}
+                x={Selector(canvasSize, v => v.width / 2)}
+                y={centerY}
+                width={width}
+                height={height}
                 r={radius}
-                color="lightblue"
+                color={"lightblue"}
             />
+
+            {DEBUG_MODE ?
+                <RoundedRect
+                    x={Selector(canvasSize, v => v.width / 2)}
+                    y={DEBUG_centerY}
+                    width={width}
+                    height={height}
+                    r={radius}
+                    color={"red"}
+                    opacity={0.5}
+                /> : null
+            }
         </Group>
     )
 }
