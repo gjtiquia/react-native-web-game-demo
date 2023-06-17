@@ -1,4 +1,4 @@
-import { Scene, SceneConfig } from "../architecture"
+import { Scene, SceneConfig } from "./Scene"
 import { Vector2 } from "../utilities";
 
 export interface GameEngineConfig {

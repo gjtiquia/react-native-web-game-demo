@@ -1,21 +1,6 @@
-// import { GameObject, Vector2, Vector2Zero } from "src/core";
-
 import { GameObject } from "../../architecture";
 import { Vector2, Vector2Zero } from "../../utilities";
-
-//! Not sure why defining this in another file breaks
-export abstract class Component {
-    protected _gameObject: GameObject;
-
-    constructor(gameObject: GameObject) {
-        this._gameObject = gameObject;
-
-        console.log("Component: GameObject ID: ", gameObject.id);
-    }
-
-    public awake(): void { }
-    public fixedUpdate(): void { }
-}
+import { Component } from "./Component";
 
 export class Transform extends Component {
 
