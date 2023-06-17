@@ -21,10 +21,10 @@ const MyCanvas = () => {
         }
     }, [])
 
+    // TODO : Dynamically create UI objects from game objects in game engine
     return (
         <Canvas style={{ flex: 1, backgroundColor: "#222" }} onSize={canvasSize} mode="continuous">
             <GameEngineProvider value={gameEngineInstance}>
-                {/* TODO: Dynamically create based on scene game objects */}
                 <RoundedBox canvasSize={canvasSize} />
                 <Platform canvasSize={canvasSize} />
 

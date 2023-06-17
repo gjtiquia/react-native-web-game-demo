@@ -1,6 +1,5 @@
-import { RoundedRect, useValue, Group, useClockValue, useValueEffect, SkiaValue, SkSize, Selector, center } from "@shopify/react-native-skia";
-import { useState } from "react";
-import { useGameEngine } from "src/core";
+import { RoundedRect, useValue, Group, useClockValue, useValueEffect, SkiaValue, SkSize, Selector } from "@shopify/react-native-skia";
+import { WorldToCanvas, useGameEngine } from "src/core";
 
 export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
     const DEBUG_MODE = false;
@@ -22,15 +21,14 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
         if (!gameEngine.isAwake) return;
 
         // Dynamically get y from game engine
-        const gameY = gameEngine.test_box_y;
-        const refY = gameEngine.test_referenceResolution_y;
-        const normalizedY = gameY / refY;
-        const flippedY = 1 - normalizedY;
-        const targetY = flippedY * canvasSize.current.height;
+        const { x, y: targetCanvasY } = WorldToCanvas(
+            { x: 0, y: gameEngine.test_box_y },
+            { x: canvasSize.current.width, y: canvasSize.current.height }
+        );
 
         // Snap when not yet initialized
         if (!isInitialized.current) {
-            centerY.current = targetY;
+            centerY.current = targetCanvasY;
             isInitialized.current = true;
             return;
         }
@@ -38,11 +36,11 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
         // Interpolate
         else {
             // TODO : Snap when in a short distance
-            const distance = targetY - centerY.current;
+            const distance = targetCanvasY - centerY.current;
             centerY.current += distance * INTERPOLATION_STRENGTH;
         }
 
-        if (DEBUG_MODE) DEBUG_centerY.current = targetY;
+        if (DEBUG_MODE) DEBUG_centerY.current = targetCanvasY;
     });
 
     return (

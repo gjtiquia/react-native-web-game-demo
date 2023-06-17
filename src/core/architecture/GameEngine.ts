@@ -8,6 +8,8 @@ export interface GameEngineConfig {
 }
 
 export class GameEngine {
+    public static ReferenceResolution: Vector2;
+
     public get tick() { return this._tick }
     public get tickRate() { return this._config.tickRate }
     public get isInitialized() { return this._isInitialized }
@@ -35,6 +37,8 @@ export class GameEngine {
     constructor(config: GameEngineConfig) {
         console.log("Game Engine Instantiated");
         this._config = config;
+
+        GameEngine.ReferenceResolution = config.referenceResolution;
     }
 
     public initialize() {
@@ -63,7 +67,7 @@ export class GameEngine {
         // TODO : Refactor later
         // ReferenceResolution: 100
         this._test_box_y = 80;
-        this._test_platform_y = 20;
+        this._test_platform_y = 30;
         //
 
         this._isAwake = true;
