@@ -1,6 +1,7 @@
 import { RoundedRect, useValue, Group, SkiaValue, SkSize, Selector } from "@shopify/react-native-skia";
 import { skiaConfig } from "src/config/skiaConfig";
 import { Time, WorldToCanvas, useRender } from "src/core";
+import { lerp } from "src/utils";
 
 export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
     const width = 64; // Hardcode
@@ -17,7 +18,6 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
         const box = gameEngine.scene.findGameObject("boxInstance");
         if (!box) return;
 
-        // Dynamically get y from game engine
         const { y: targetCanvasY } = WorldToCanvas(
             box.transform.position,
             { x: canvasSize.current.width, y: canvasSize.current.height }
@@ -42,15 +42,7 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
             if (Math.abs(distance) > skiaConfig.interpolationThreshold)
                 centerY.current = targetCanvasY;
             else {
-                // centerY.current += distance * skiaConfig.interpolationStrength;
-
-                const alpha = elapsedTime / Time.fixedDeltaTime;
-                const a = previousCanvasY;
-                const b = targetCanvasY;
-
-                const lerped = a + alpha * (b - a);
-
-                centerY.current = lerped;
+                centerY.current = lerp(previousCanvasY, targetCanvasY, elapsedTime / Time.fixedDeltaTime);
             }
         }
 
