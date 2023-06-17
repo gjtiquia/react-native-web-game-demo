@@ -1,12 +1,9 @@
-import { RoundedRect, useValue, Group, useClockValue, useValueEffect, SkiaValue, SkSize, Selector } from "@shopify/react-native-skia";
-import { WorldToCanvas, useGameEngine } from "src/core";
+import { RoundedRect, useValue, Group, SkiaValue, SkSize, Selector } from "@shopify/react-native-skia";
+import { WorldToCanvas, useRender } from "src/core";
 
 export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
     const DEBUG_MODE = false;
     const INTERPOLATION_STRENGTH = 0.35; // Closer to 1 = Follow closer, Closer to 0 = Smoother but follow slower
-
-    const { gameEngine } = useGameEngine();
-    const clock = useClockValue();
 
     const width = 64; // Hardcode
     const height = 128; // Hardcode
@@ -17,11 +14,9 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
     const centerY = useValue(0); // initial y is out of canvas, so will not flicker when snapping in place
     const DEBUG_centerY = useValue(0);
 
-    useValueEffect(clock, () => {
-        if (!gameEngine.isAwake) return;
-
+    useRender((gameEngine) => {
         // Dynamically get y from game engine
-        const { x, y: targetCanvasY } = WorldToCanvas(
+        const { y: targetCanvasY } = WorldToCanvas(
             { x: 0, y: gameEngine.test_box_y },
             { x: canvasSize.current.width, y: canvasSize.current.height }
         );
@@ -41,7 +36,7 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
         }
 
         if (DEBUG_MODE) DEBUG_centerY.current = targetCanvasY;
-    });
+    })
 
     return (
         <Group

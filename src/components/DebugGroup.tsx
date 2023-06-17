@@ -1,46 +1,35 @@
-import { useEffect, useState } from "react";
-import { LayoutChangeEvent } from "react-native";
-import { Canvas, Circle, Group, Rect, Selector, SkSize, SkiaValue, Text, interpolate, mix, point, size, useClockValue, useComputedValue, useFont, useSharedValueEffect, useValue, useValueEffect } from "@shopify/react-native-skia";
-import { Vector2, Vector2Zero, useGameEngine } from "src/core";
-import { RoundedBox } from "./RoundedBox";
+import { Group, Rect, Selector, SkSize, SkiaValue, Text, point, size, useComputedValue, useFont, useValue, } from "@shopify/react-native-skia";
+import { GameEngine, useRender } from "src/core";
 
 interface DebugGroupProps {
     canvasSize: SkiaValue<SkSize>
 }
 
 export const DebugGroup = ({ canvasSize }: DebugGroupProps) => {
-    const { gameEngine } = useGameEngine();
-
     const fontSize = 18;
     const font = useFont(require("assets/fonts/Roboto/Roboto-Regular.ttf"), fontSize);
 
-    const clock = useClockValue();
-    const previousClock = useValue(0);
-
-    const refreshRate = useValue(0);
-    const refreshRateDisplay = useComputedValue(() => `Refresh Rate: ${refreshRate.current}Hz`, [refreshRate])
+    const refreshRateDisplay = useValue("");
     const tickRateDisplay = useValue("");
-
-    const tick = useValue(0);
-    const tickDisplay = useComputedValue(() => `Tick: ${tick.current}`, [tick])
-
-    // Called every frame
-    useValueEffect(clock, () => {
-        const deltaTime = clock.current - previousClock.current;
-        const calculatedFPS = Math.round(1000 / (deltaTime));
-
-        refreshRate.current = calculatedFPS;
-        previousClock.current = clock.current;
-
-        tickRateDisplay.current = `Tick Rate: ${gameEngine.tickRate}TPS`;
-        tick.current = gameEngine.tick;
-    });
+    const tickDisplay = useValue("");
 
     const canvasCenter = useComputedValue(() => {
         return point(canvasSize.current.width / 2, canvasSize.current.height / 2)
     }, [canvasSize]);
 
     const dotSize = size(10, 10);
+
+    const onGameEngineRender = (gameEngine: GameEngine) => {
+        tickRateDisplay.current = `Tick Rate: ${gameEngine.tickRate}TPS`;
+        tickDisplay.current = `Tick: ${gameEngine.tick}`;
+    }
+
+    const onSkiaRender = (deltaTime: number) => {
+        const refreshRate = Math.round(1000 / (deltaTime));
+        refreshRateDisplay.current = `Refresh Rate: ${refreshRate}Hz`
+    }
+
+    useRender(onGameEngineRender, onSkiaRender)
 
     if (font == null) return null;
     return (
