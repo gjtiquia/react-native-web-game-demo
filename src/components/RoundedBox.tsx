@@ -15,7 +15,7 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
 
     const isInitialized = useValue(false);
 
-    const centerY = useValue(0);
+    const centerY = useValue(0); // initial y is out of canvas, so will not flicker when snapping in place
     const DEBUG_centerY = useValue(0);
 
     useValueEffect(clock, () => {

@@ -28,7 +28,7 @@ const MyCanvas = () => {
                 <RoundedBox canvasSize={canvasSize} />
                 <Platform canvasSize={canvasSize} />
 
-                <DebugGroup canvasSize={canvasSize} />
+                {/* <DebugGroup canvasSize={canvasSize} /> */}
             </GameEngineProvider>
         </Canvas>
     )
