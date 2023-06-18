@@ -8,7 +8,8 @@ export const gameEngineConfig: GameEngineConfig = {
     // tickRate: 60, // Faster TPS to match 60Hz refresh rate and have less input lag
 
     referenceResolution: { x: 50, y: 100 },
-    sceneConfig: sceneConfig
+    sceneConfig: sceneConfig,
+    inputSystemConfig: { inputActions: ["jump"] }
 }
 
 export const gameEngineInstance: GameEngine | undefined = new GameEngine(gameEngineConfig);
