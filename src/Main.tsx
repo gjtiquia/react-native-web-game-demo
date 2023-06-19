@@ -5,8 +5,13 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 // This is important only to pull the code responsible for loading Skia.
 import { WithSkiaWeb } from "@shopify/react-native-skia/lib/module/web";
 import { UIOverlay } from "src/UIOverlay";
+import { useEffect } from "react";
+import { InputSystem } from "./core/architecture/InputSystem";
 
-const Main = () => {
+export const Main = () => {
+    // Only listen to keyboard events on the web
+    listenToKeyboardEvents();
+
     return (
         <SafeAreaProvider>
             <WithSkiaWeb
@@ -18,4 +23,15 @@ const Main = () => {
     );
 }
 
-export { Main }
+const listenToKeyboardEvents = () => {
+    const onKeyDownEvent = (e: KeyboardEvent) => {
+        if (e.code === "Space") {
+            InputSystem.addActionToBuffer("jump"); // TODO : use enum
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("keydown", onKeyDownEvent);
+        return () => document.removeEventListener("keydown", onKeyDownEvent);
+    }, []);
+}
