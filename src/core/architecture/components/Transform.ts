@@ -1,4 +1,4 @@
-import { Vector2, Vector2Zero } from "../../utilities";
+import { Vector2, Vector2Zero } from "../../types";
 import { GameObject } from "../GameObject";
 import { Component } from "./Component";
 

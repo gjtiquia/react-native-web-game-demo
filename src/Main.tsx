@@ -1,4 +1,4 @@
-import { Button, Platform, Text, View } from "react-native";
+import { Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
 // Notice the import path `@shopify/react-native-skia/lib/module/web`
@@ -6,7 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 import { WithSkiaWeb } from "@shopify/react-native-skia/lib/module/web";
 import { UIOverlay } from "src/UIOverlay";
 import { useEffect } from "react";
-import { InputSystem } from "./core/architecture/InputSystem";
+import { InputSystem } from "./core/architecture";
 import { InputAction } from "./config";
 
 export const Main = () => {

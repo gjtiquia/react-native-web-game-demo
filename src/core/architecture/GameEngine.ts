@@ -1,4 +1,4 @@
-import { Vector2 } from "../utilities";
+import { Vector2 } from "../types";
 import { InputSystem, InputSystemConfig } from "./InputSystem";
 import { Scene, SceneConfig } from "./Scene"
 import { Time } from "./Time"
