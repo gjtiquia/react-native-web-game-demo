@@ -14,7 +14,7 @@ export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) =>
     const DEBUG_CURRENT_centerY = useValue(0);
     const DEBUG_PREVIOUS_centerY = useValue(0);
 
-    useRender((gameEngine, deltaTime, elapsedTime) => {
+    useRender(({ gameEngine, elapsedTime }) => {
         const box = gameEngine.scene.findGameObject("boxInstance");
         if (!box) return;
 

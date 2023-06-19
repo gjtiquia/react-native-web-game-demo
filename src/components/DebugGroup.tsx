@@ -1,5 +1,5 @@
 import { Group, Rect, Selector, SkSize, SkiaValue, Text, point, size, useComputedValue, useFont, useValue, } from "@shopify/react-native-skia";
-import { GameEngine, Time, useRender } from "src/core";
+import { GameEngine, OnGameEngineRenderParams, Time, useRender } from "src/core";
 
 interface DebugGroupProps {
     canvasSize: SkiaValue<SkSize>
@@ -20,10 +20,10 @@ export const DebugGroup = ({ canvasSize }: DebugGroupProps) => {
 
     const dotSize = size(10, 10);
 
-    const onGameEngineRender = (gameEngine: GameEngine, deltaTime: number, elapsedTime: number) => {
+    const onGameEngineRender = (params: OnGameEngineRenderParams) => {
         tickRateDisplay.current = `Tick Rate: ${Time.tickRate}TPS`;
-        tickDisplay.current = `Tick: ${gameEngine.tick}`;
-        elapsedTimeDisplay.current = `Elapsed Time Since Last Tick: ${elapsedTime}`;
+        tickDisplay.current = `Tick: ${params.gameEngine.tick}`;
+        elapsedTimeDisplay.current = `Elapsed Time Since Last Tick: ${params.elapsedTime}`;
     }
 
     const onSkiaRender = (deltaTime: number) => {
