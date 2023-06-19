@@ -1,5 +1,5 @@
 import { GameEngine } from "../architecture";
-import { Vector2 } from "../types";
+import { type Vector2 } from "../types";
 
 export function WorldToCanvas(worldPosition: Vector2, canvasSize: Vector2): Vector2 {
     // currently only transforms y position

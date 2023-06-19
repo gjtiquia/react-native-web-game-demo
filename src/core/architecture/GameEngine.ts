@@ -1,5 +1,5 @@
-import { Vector2 } from "../types";
-import { InputSystem, InputSystemConfig } from "./InputSystem";
+import { type Vector2 } from "../types";
+import { type InputSystemConfig, InputSystem } from "./InputSystem";
 import { Scene, SceneConfig } from "./Scene"
 import { Time } from "./Time"
 

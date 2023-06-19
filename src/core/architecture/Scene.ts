@@ -1,4 +1,4 @@
-import { GameObject, GameObjectInstanceConfig } from "./GameObject";
+import { type GameObjectInstanceConfig, GameObject } from "./GameObject";
 
 export interface SceneConfig {
     initialGameObjects?: GameObjectInstanceConfig[]
