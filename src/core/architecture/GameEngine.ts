@@ -67,6 +67,7 @@ export class GameEngine {
 
     private fixedUpdate() {
         this._scene.onFixedUpdate();
+        InputSystem.clearBufferredActions();
         this._tick++;
     }
 
