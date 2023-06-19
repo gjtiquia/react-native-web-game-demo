@@ -12,8 +12,7 @@ export const UIOverlay = () => {
         <SafeAreaView className="h-full flex justify-end">
             <Pressable
                 className="bg-blue-400 active:bg-blue-500 border-slate-50 mb-6 self-center px-24 py-4 rounded-md"
-                onPress={() => {
-                    // console.log("pressed!");
+                onPressIn={() => {
                     InputSystem.addActionToBuffer("jump");
                 }}
             >
