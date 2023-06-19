@@ -54,10 +54,16 @@ eas build -p android --profile development
 
 ## Developer Tools
 
-Analyze, detect and debug circular dependencies with the following command.
+Analyze, detect and debug circular dependencies with the following command. This also generates an interactive graph.
 
 ```bash
 npx skott --showCircularDependencies ./App.tsx
 ```
 
 In the command above, App.tsx is used as the entrypoint. Read the [documentation](https://github.com/antoine-coulon/skott/tree/main/packages/skott#readme) for more information.
+
+Another useful command to check for circular dependencies.
+
+```bash
+npx dpdm ./App.tsx
+```
