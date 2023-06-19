@@ -1,4 +1,5 @@
-import { Vector2 } from "../utilities";
+import { type Vector2 } from "../types";
+import { type InputSystemConfig, InputSystem } from "./InputSystem";
 import { Scene, SceneConfig } from "./Scene"
 import { Time } from "./Time"
 
@@ -6,7 +7,8 @@ export interface GameEngineConfig {
     /** One cycle of a game loop is called a tick. Tick rate is the number of ticks per second. */
     tickRate: number,
     referenceResolution: Vector2,
-    sceneConfig: SceneConfig
+    sceneConfig: SceneConfig,
+    inputSystemConfig: InputSystemConfig
 }
 
 export class GameEngine {
@@ -32,6 +34,7 @@ export class GameEngine {
 
         GameEngine.referenceResolution = config.referenceResolution;
         Time.tickRate = config.tickRate;
+        InputSystem.initialize(config.inputSystemConfig);
 
         this._scene = new Scene(config.sceneConfig);
     }
@@ -64,6 +67,7 @@ export class GameEngine {
 
     private fixedUpdate() {
         this._scene.onFixedUpdate();
+        InputSystem.clearBufferredActions();
         this._tick++;
     }
 

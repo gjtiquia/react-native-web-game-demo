@@ -1,4 +1,9 @@
-import { GameObject } from "../../architecture";
+// Import type to prevent circular dependencies
+// References:
+// https://stackoverflow.com/questions/24444436/circular-type-references-in-typescript
+// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html
+import { type GameObject } from "../GameObject";
+export { GameObject }
 
 export interface ComponentConfig {
     component: new (gameObject: GameObject) => Component

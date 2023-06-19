@@ -1,5 +1,9 @@
-import { Vector2 } from "../utilities";
-import { Component, ComponentConfig, Transform } from "./components";
+import { type Vector2 } from "../types";
+import {
+    type Component,
+    type ComponentConfig
+} from "./components/Component";
+import { Transform } from "./components/Transform";
 
 export interface GameObjectPrefabConfig {
     prefabID: string,

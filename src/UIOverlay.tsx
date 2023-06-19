@@ -1,18 +1,22 @@
-import { View, Text, Linking } from "react-native"
+import { Pressable, Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
+import { Footer } from "./ui"
+import { InputSystem } from "./core/architecture/InputSystem"
+import { InputAction } from "./config"
 
 export const UIOverlay = () => {
     return (
-        <SafeAreaView className="flex-1 justify-end">
-            <View className="flex flex-row justify-between items-center p-2">
-                <Text className="font-bold text-slate-50 text-lg">React Native Web Game Demo</Text>
-                <Text
-                    className="font-bold text-blue-500"
-                    onPress={() => Linking.openURL("https://github.com/gjtiquia/react-native-web-game-demo")}
-                >
-                    GitHub Link
-                </Text>
-            </View>
+        <SafeAreaView className="h-full flex justify-end">
+            <Pressable
+                className="bg-blue-400 active:bg-blue-500 border-slate-50 mb-6 self-center px-24 py-4 rounded-md"
+                onPressIn={() => {
+                    InputSystem.addActionToBuffer(InputAction.Jump);
+                }}
+            >
+                <Text className="text-slate-50 font-bold text-3xl">Jump</Text>
+            </Pressable>
+
+            <Footer />
         </SafeAreaView>
     )
 }

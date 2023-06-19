@@ -3,12 +3,18 @@ import { useClockValue, useValue, useValueEffect } from "@shopify/react-native-s
 import { GameEngine } from "../architecture";
 import { useGameEngine } from "./useGameEngine";
 
+export interface OnGameEngineRenderParams {
+    gameEngine: GameEngine,
+    deltaTime: number,
+    elapsedTime: number
+}
+
 /**
  * Called every render frame.
  * @param onGameEngineRender Called every render frame the game engine is awake.
  * @param onSkiaRender Called every render frame when the clock value from Skia is updated. Called regardless if the game engine is awake.
  */
-export const useRender = (onGameEngineRender: (gameEngine: GameEngine, deltaTime: number, elapsedTime: number) => void, onSkiaRender?: (deltaTime: number) => void) => {
+export const useRender = (onGameEngineRender: (params: OnGameEngineRenderParams) => void, onSkiaRender?: (deltaTime: number) => void) => {
     const { gameEngine } = useGameEngine();
 
     const clock = useClockValue();
@@ -31,7 +37,7 @@ export const useRender = (onGameEngineRender: (gameEngine: GameEngine, deltaTime
                 elapsedTimeSinceLastTick.current += deltaTime;
             }
 
-            onGameEngineRender(gameEngine, deltaTime, elapsedTimeSinceLastTick.current);
+            onGameEngineRender({ gameEngine, deltaTime, elapsedTime: elapsedTimeSinceLastTick.current });
         }
 
         if (onSkiaRender) onSkiaRender(deltaTime);
