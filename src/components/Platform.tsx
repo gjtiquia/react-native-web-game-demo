@@ -1,5 +1,5 @@
 import { Group, Rect, SkSize, SkiaValue, useComputedValue, useValue } from "@shopify/react-native-skia"
-import { WorldToCanvas, useRender } from "src/core";
+import { WorldToCanvas, useRender } from "src/internalExports";
 
 export const Platform = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
     const width = useComputedValue(() => canvasSize.current.width, [canvasSize]);

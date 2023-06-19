@@ -1,8 +1,4 @@
-import { GameObject, GameObjectInstanceConfig } from "./GameObject";
-
-export interface SceneConfig {
-    initialGameObjects?: GameObjectInstanceConfig[]
-}
+import { GameObject, SceneConfig } from "src/internalExports";
 
 export class Scene {
     private _gameObjects: GameObject[];

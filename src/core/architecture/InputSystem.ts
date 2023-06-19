@@ -1,6 +1,4 @@
-export interface InputSystemConfig {
-    inputActions: string[]
-}
+import { InputSystemConfig } from "src/internalExports";
 
 export abstract class InputSystem {
 

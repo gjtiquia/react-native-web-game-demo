@@ -1,15 +1,4 @@
-import { Vector2 } from "../utilities";
-import { InputSystem, InputSystemConfig } from "./InputSystem";
-import { Scene, SceneConfig } from "./Scene"
-import { Time } from "./Time"
-
-export interface GameEngineConfig {
-    /** One cycle of a game loop is called a tick. Tick rate is the number of ticks per second. */
-    tickRate: number,
-    referenceResolution: Vector2,
-    sceneConfig: SceneConfig,
-    inputSystemConfig: InputSystemConfig
-}
+import { Vector2, Scene, GameEngineConfig, SceneConfig, Time, InputSystem, InputSystemConfig } from "src/internalExports";
 
 export class GameEngine {
     // STATIC MEMBERS

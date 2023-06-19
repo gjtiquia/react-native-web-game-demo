@@ -1,12 +1,12 @@
-import { Button, Platform, Text, View } from "react-native";
+import { useEffect } from "react";
+import { Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
 // Notice the import path `@shopify/react-native-skia/lib/module/web`
 // This is important only to pull the code responsible for loading Skia.
 import { WithSkiaWeb } from "@shopify/react-native-skia/lib/module/web";
-import { UIOverlay } from "src/UIOverlay";
-import { useEffect } from "react";
-import { InputSystem } from "./core/architecture/InputSystem";
+
+import { UIOverlay, InputSystem } from "src/internalExports";
 
 export const Main = () => {
     // Only listen to keyboard events on the web

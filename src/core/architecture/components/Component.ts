@@ -1,8 +1,4 @@
-import { GameObject } from "../../architecture";
-
-export interface ComponentConfig {
-    component: new (gameObject: GameObject) => Component
-}
+import { GameObject } from "src/internalExports";
 
 export abstract class Component {
     protected get _transform() { return this._gameObject.transform }

@@ -1,5 +1,4 @@
-import { GameEngine, GameEngineConfig } from "src/core";
-import { sceneConfig } from "./sceneConfig";
+import { GameEngine, GameEngineConfig, sceneConfig } from "src/internalExports";
 
 export enum InputAction {
     Jump = "jump"

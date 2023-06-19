@@ -1,5 +1,4 @@
-import { GameObjectPrefabConfig } from "src/core";
-import { Box } from "../scripts/box";
+import { GameObjectPrefabConfig, Box } from "src/internalExports";
 
 export const boxPrefab: GameObjectPrefabConfig = {
     prefabID: "boxPrefab",

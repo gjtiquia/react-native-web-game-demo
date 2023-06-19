@@ -1,15 +1,4 @@
-import { Vector2 } from "../utilities";
-import { Component, ComponentConfig, Transform } from "./components";
-
-export interface GameObjectPrefabConfig {
-    prefabID: string,
-    prefabComponents?: ComponentConfig[]
-}
-
-export interface GameObjectInstanceConfig extends GameObjectPrefabConfig {
-    instanceID: string,
-    initialPosition: Vector2
-}
+import { Component, GameObjectInstanceConfig, Transform } from "src/internalExports";
 
 export class GameObject {
     public get instanceID() { return this._instanceID }

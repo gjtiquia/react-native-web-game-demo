@@ -1,6 +1,4 @@
-import { InputAction } from "src/config/gameEngineConfig";
-import { Component, Time } from "src/core";
-import { InputSystem } from "src/core/architecture/InputSystem";
+import { InputAction, Component, Time, InputSystem } from "src/internalExports";
 
 export class Box extends Component {
     private _acceleration: number = -0.00045;

@@ -1,7 +1,4 @@
-import { SceneConfig } from "src/core";
-
-import { boxPrefab, platformPrefab } from "./assets/prefabs";
-import { Box } from "./assets/scripts/box";
+import { SceneConfig, boxPrefab, platformPrefab } from "src/internalExports";
 
 export const sceneConfig: SceneConfig = {
     initialGameObjects: [

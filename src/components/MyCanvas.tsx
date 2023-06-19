@@ -1,11 +1,6 @@
 import { useEffect } from "react";
 import { Canvas, useValue, } from "@shopify/react-native-skia";
-import { GameEngineProvider } from "src/core";
-import { gameEngineInstance } from "src/config/gameEngineConfig";
-import { RoundedBox } from "./RoundedBox";
-import { DebugGroup } from "./DebugGroup";
-import { Platform } from "./Platform";
-import { skiaConfig } from "src/config/skiaConfig";
+import { skiaConfig, GameEngineProvider, gameEngineInstance, RoundedBox, DebugGroup, Platform } from "src/internalExports";
 
 // Note 1: Top Left is (0, 0)
 // Note 2: Using Reanimated 2 due to Expo not supporting Reanimated 3 yet.

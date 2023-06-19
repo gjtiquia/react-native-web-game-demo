@@ -1,11 +1,10 @@
 import { Pressable, View, Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { Footer } from "./ui"
-import { InputSystem } from "./core/architecture/InputSystem"
-import { InputAction } from "./config/gameEngineConfig"
+
+import { Footer, InputSystem, InputAction } from "src/internalExports"
 
 //! somehow the code cannot compile? might be circular dependency
-// const jumpAction = InputAction.Jump;
+const jumpAction = InputAction.Jump;
 
 export const UIOverlay = () => {
     return (

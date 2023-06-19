@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect } from "react";
-import { GameEngine, GameEngineConfig } from "../architecture";
+import { GameEngine, GameEngineConfig } from "src/internalExports";
 
 const GameEngineContext = createContext<GameEngine | undefined>(undefined);
 export const GameEngineProvider = GameEngineContext.Provider;

@@ -1,7 +1,6 @@
 import { useClockValue, useValue, useValueEffect } from "@shopify/react-native-skia";
 
-import { GameEngine } from "../architecture";
-import { useGameEngine } from "./useGameEngine";
+import { GameEngine, useGameEngine } from "src/internalExports";
 
 export interface OnGameEngineRenderParams {
     gameEngine: GameEngine,

@@ -4,8 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 import { StatusBar } from "expo-status-bar";
 import * as NavigationBar from 'expo-navigation-bar';
 
-import { MySkiaComponent } from "src/components";
-import { UIOverlay } from "src/UIOverlay";
+import { MySkiaComponent, UIOverlay } from "src/internalExports";
 
 const Main = () => {
     // Init Android NavBar

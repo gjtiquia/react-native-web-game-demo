@@ -1,5 +1,4 @@
-import { GameEngine } from "../architecture";
-import { Vector2 } from "./Vector2";
+import { GameEngine, Vector2 } from "src/internalExports";
 
 export function WorldToCanvas(worldPosition: Vector2, canvasSize: Vector2): Vector2 {
     // currently only transforms y position

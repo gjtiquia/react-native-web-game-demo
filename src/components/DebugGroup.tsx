@@ -1,5 +1,5 @@
 import { Group, Rect, Selector, SkSize, SkiaValue, Text, point, size, useComputedValue, useFont, useValue, } from "@shopify/react-native-skia";
-import { GameEngine, OnGameEngineRenderParams, Time, useRender } from "src/core";
+import { OnGameEngineRenderParams, Time, useRender } from "src/internalExports";
 
 interface DebugGroupProps {
     canvasSize: SkiaValue<SkSize>

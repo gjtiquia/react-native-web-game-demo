@@ -1,7 +1,5 @@
 import { RoundedRect, useValue, Group, SkiaValue, SkSize, Selector } from "@shopify/react-native-skia";
-import { skiaConfig } from "src/config/skiaConfig";
-import { Time, WorldToCanvas, useRender } from "src/core";
-import { lerp } from "src/utils";
+import { skiaConfig, Time, WorldToCanvas, useRender, lerp } from "src/internalExports";
 
 export const RoundedBox = ({ canvasSize }: { canvasSize: SkiaValue<SkSize> }) => {
     const width = 64; // Hardcode
