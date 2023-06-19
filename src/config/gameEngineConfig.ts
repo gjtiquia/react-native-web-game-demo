@@ -1,9 +1,6 @@
 import { GameEngine, GameEngineConfig } from "src/core";
 import { sceneConfig } from "./sceneConfig";
-
-export enum InputAction {
-    Jump = "jump"
-}
+import { InputAction } from "./InputAction";
 
 export const gameEngineConfig: GameEngineConfig = {
     // tickRate: 3, // Slower TPS to for debugging

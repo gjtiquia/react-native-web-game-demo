@@ -1,4 +1,4 @@
-import { InputAction } from "src/config/gameEngineConfig";
+import { InputAction } from "src/config";
 import { Component, Time } from "src/core";
 import { InputSystem } from "src/core/architecture/InputSystem";
 

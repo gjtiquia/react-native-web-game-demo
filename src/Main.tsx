@@ -7,6 +7,7 @@ import { WithSkiaWeb } from "@shopify/react-native-skia/lib/module/web";
 import { UIOverlay } from "src/UIOverlay";
 import { useEffect } from "react";
 import { InputSystem } from "./core/architecture/InputSystem";
+import { InputAction } from "./config";
 
 export const Main = () => {
     // Only listen to keyboard events on the web
@@ -26,7 +27,7 @@ export const Main = () => {
 const listenToKeyboardEvents = () => {
     const onKeyDownEvent = (e: KeyboardEvent) => {
         if (e.code === "Space") {
-            InputSystem.addActionToBuffer("jump"); // TODO : use enum
+            InputSystem.addActionToBuffer(InputAction.Jump);
         }
     };
 
