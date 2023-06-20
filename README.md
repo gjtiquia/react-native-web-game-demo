@@ -2,6 +2,12 @@
 
 A demo project to test a game engine capable of running in both mobile and web using an Expo managed workflow while using React Native Skia as the graphics library.
 
+A web demo is hosted here: https://react-native-web-game-demo.netlify.app/
+
+An Android APK demo is available in the [releases](https://github.com/gjtiquia/react-native-web-game-demo/releases) page and in this [link](https://expo.dev/accounts/gjtiquia/projects/react-native-web-game-demo/builds/8d771525-3ad0-4a24-999d-a1d7a9956517).
+
+![image](https://github.com/gjtiquia/react-native-web-game-demo/assets/47134711/8a79103f-c611-41eb-a0eb-d76cadb19be5)
+
 ## Instructions
 
 ### Setting up a Development Environment
